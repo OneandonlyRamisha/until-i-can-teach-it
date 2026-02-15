@@ -1,0 +1,20 @@
+.container {
+  background-color: var(--card);
+  padding: 3rem;
+  border-radius: 0.8rem;
+  border: 1px solid #4e4c4c;
+  transition: all 0.3s;
+}
+
+.container:hover {
+  border-color: var(--accent);
+}
+.header {
+  font-size: 2.4rem;
+  color: var(--text);
+}
+
+.posts {
+  font-size: 1.4rem;
+  color: var(--secondaryText);
+}

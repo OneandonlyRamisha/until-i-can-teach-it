@@ -1,0 +1,34 @@
+.lastPostsSection {
+  margin-top: 9.4rem;
+}
+
+.lastPostsContainer {
+  display: flex;
+  gap: 1.8rem;
+  margin-top: 4rem;
+}
+/* Tablet */
+@media (max-width: 1024px) {
+  .lastPostsSection {
+    margin-top: 7rem;
+  }
+
+  .lastPostsContainer {
+    gap: 1.6rem;
+    margin-top: 3rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .lastPostsSection {
+    margin-top: 6rem;
+    padding: 0 1.6rem;
+  }
+
+  .lastPostsContainer {
+    flex-direction: column;
+    gap: 4rem;
+    margin-top: 2.4rem;
+  }
+}

@@ -1,0 +1,26 @@
+.startHereContainer {
+  display: flex;
+  gap: 1.8rem;
+  margin-top: 4rem;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .startHereSection {
+    padding: 0 1.6rem;
+  }
+
+  .startHereContainer {
+    gap: 1.6rem;
+    margin-top: 3rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .startHereContainer {
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 2.4rem;
+  }
+}

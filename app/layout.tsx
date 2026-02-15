@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Noto_Serif_Georgian } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/footer/footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const notoSerifGeorgian = Noto_Serif_Georgian({
+  variable: "--noto-serif-georgian",
   subsets: ["latin"],
 });
 
@@ -24,8 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={notoSerifGeorgian.variable}>
         {children}
+        <Footer />
       </body>
     </html>
   );
