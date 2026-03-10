@@ -1,9 +1,10 @@
 import StartHereContainer from "@/components/startHereContainer/startHereContainer";
 import styles from "./startHereSection.module.css";
-import { POSTS } from "@/data/posts";
+import { getPosts } from "@/lib/posts";
 
-export default function StartHereSection() {
-  const data = POSTS.slice(0, 2);
+export default async function StartHereSection() {
+  const data = await getPosts({ limit: 2 });
+
   return (
     <section className={styles.startHereSection}>
       <h2 className={styles.startHereHeader}>Start Here</h2>

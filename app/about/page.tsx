@@ -1,4 +1,18 @@
+import type { Metadata } from "next";
 import styles from "./page.module.css";
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "I'm Luka — a self-taught full-stack developer and writer. I blog about coding, AI, business lessons, philosophy, and whatever I'm learning right now.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About | Until I Can Teach It",
+    description:
+      "I'm Luka — a self-taught full-stack developer and writer. I blog about coding, AI, business lessons, philosophy, and whatever I'm learning right now.",
+    url: "/about",
+  },
+};
 import Link from "next/link";
 import { FaArrowLeftLong } from "react-icons/fa6";
 

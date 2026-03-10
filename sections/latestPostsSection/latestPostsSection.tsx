@@ -1,12 +1,9 @@
 import LastPostsContainer from "@/components/lastPostsContainer/lastPostsContainer";
-import { POSTS } from "@/data/posts";
+import { getPosts } from "@/lib/posts";
 import styles from "./latestPostsSection.module.css";
 
-export default function LatestPostsSection() {
-  // Sorts by the 'date' field in your POSTS data, newest first
-  const latestPosts = POSTS.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  ).slice(0, 3);
+export default async function LatestPostsSection() {
+  const latestPosts = await getPosts({ sortByDate: true, limit: 3 });
 
   return (
     <section className={styles.lastPostsSection}>

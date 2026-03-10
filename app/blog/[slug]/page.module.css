@@ -97,6 +97,33 @@
   display: inline;
 }
 
+.quote {
+  font-size: 2rem;
+  line-height: 1.8;
+  color: var(--text);
+  margin-bottom: 4rem;
+  font-style: italic;
+  border-left: 4px solid var(--accent);
+  padding-left: 3rem;
+  opacity: 0.9;
+}
+
+.bullets {
+  list-style: disc;
+  padding-left: 3.2rem;
+  margin-bottom: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.bullet {
+  font-size: 1.9rem;
+  line-height: 1.9;
+  color: var(--text);
+  opacity: 0.92;
+}
+
 .highlight {
   color: var(--accent);
   font-weight: 600;

@@ -66,6 +66,14 @@
   gap: 3rem;
 }
 
+.loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--secondaryText);
+  font-size: 1.6rem;
+  padding: 6rem 0;
+}
+
 .filterContainer {
   display: flex;
   align-items: center;
