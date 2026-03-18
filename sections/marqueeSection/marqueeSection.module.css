@@ -1,0 +1,57 @@
+/* Dark zone — seamless continuation from hero's eye vignette end state */
+.section {
+  background: var(--text);
+  overflow: hidden;
+  padding: 5.4rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+}
+
+.trackLeft {
+  animation: scrollLeft 36s linear infinite;
+}
+
+.trackRight {
+  animation: scrollRight 42s linear infinite;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  font-size: clamp(2.6rem, 3.2vw, 4.8rem);
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  color: rgba(245, 244, 237, 0.1);
+  text-transform: uppercase;
+  padding: 0 0.8rem;
+  user-select: none;
+}
+
+.itemAlt {
+  color: rgba(245, 244, 237, 0.06);
+}
+
+.dot {
+  color: var(--golden);
+  opacity: 0.25;
+  margin-left: 1.4rem;
+  font-style: normal;
+}
+
+@keyframes scrollLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes scrollRight {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}

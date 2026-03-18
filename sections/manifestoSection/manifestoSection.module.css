@@ -1,0 +1,146 @@
+/* ── Dark contrast zone — color shift from cream to deep brown ── */
+.section {
+  background: var(--text); /* #493C31 — warm dark brown */
+  overflow: visible;
+  position: relative;
+}
+
+.inner {
+  max-width: 140rem;
+  margin: 0 auto;
+  width: 90%;
+  padding: 12rem 0 0;
+  overflow: visible;
+}
+
+/* ── Section label + opener ── */
+.top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4rem;
+  margin-bottom: 8rem;
+  border-top: 1px solid rgba(245, 244, 237, 0.12);
+  padding-top: 3.2rem;
+}
+
+.label {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgba(245, 244, 237, 0.35);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.opener {
+  font-size: 2rem;
+  color: rgba(245, 244, 237, 0.55);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.5;
+  text-align: right;
+  max-width: 36rem;
+}
+
+/* ── Principles list ── */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 0 4rem;
+  padding: 5rem 0;
+  border-bottom: 1px solid rgba(245, 244, 237, 0.08);
+  align-items: start;
+}
+
+.num {
+  font-size: 1.1rem;
+  letter-spacing: 0.16em;
+  color: var(--golden);
+  font-weight: 500;
+  padding-top: 0.6rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.heading {
+  font-size: 3.8rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: rgba(245, 244, 237, 0.92);
+}
+
+.body {
+  font-size: 1.7rem;
+  line-height: 1.75;
+  color: rgba(245, 244, 237, 0.45);
+  max-width: 60rem;
+}
+
+/* ── Scrolling marquee at bottom of section ── */
+.marqueeWrap {
+  margin-top: 10rem;
+  overflow: hidden;
+  border-top: 1px solid rgba(245, 244, 237, 0.08);
+  padding: 3.2rem 0;
+  width: 100%;
+}
+
+.marquee {
+  display: flex;
+  gap: 4rem;
+  width: max-content;
+  animation: scroll 28s linear infinite;
+  font-size: clamp(2rem, 3.5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-style: italic;
+  color: rgba(245, 244, 237, 0.08);
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding-left: 4rem;
+}
+
+.dot {
+  color: var(--golden);
+  opacity: 0.3;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── Tablet ── */
+@media (max-width: 1024px) {
+  .inner { padding: 10rem 0 0; }
+  .top { flex-direction: column; gap: 1.6rem; }
+  .opener { text-align: left; }
+  .heading { font-size: 3rem; }
+  .item { grid-template-columns: 8rem 1fr; gap: 0 2.4rem; }
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .inner { width: 92%; padding: 8rem 0 0; }
+  .top { margin-bottom: 5rem; }
+  .item {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    padding: 4rem 0;
+  }
+  .heading { font-size: 2.6rem; }
+  .body { font-size: 1.6rem; }
+  .marqueeWrap { margin-top: 6rem; }
+}

@@ -1,34 +1,87 @@
-.lastPostsSection {
-  margin-top: 9.4rem;
+.section {
+  padding: 12rem 0;
+  max-width: 140rem;
+  margin: 0 auto;
+  width: 90%;
 }
 
-.lastPostsContainer {
+.header {
   display: flex;
-  gap: 1.8rem;
-  margin-top: 4rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 4rem;
+  border-top: 1px solid var(--border);
+  padding-top: 3.2rem;
+  margin-bottom: 0;
 }
-/* Tablet */
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.label {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--text-light);
+  font-weight: 500;
+  display: block;
+}
+
+.title {
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.title em {
+  font-style: italic;
+}
+
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-bottom: 0.4rem;
+  transition: color 0.25s ease, gap 0.25s ease;
+}
+
+.viewAll:hover {
+  color: var(--text);
+  gap: 1.4rem;
+}
+
+.viewAllIcon {
+  font-size: 1.1rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
 @media (max-width: 1024px) {
-  .lastPostsSection {
-    margin-top: 7rem;
+  .section {
+    padding: 8rem 0;
   }
 
-  .lastPostsContainer {
-    gap: 1.6rem;
-    margin-top: 3rem;
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
   }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
-  .lastPostsSection {
-    margin-top: 6rem;
-    padding: 0 1.6rem;
-  }
-
-  .lastPostsContainer {
-    flex-direction: column;
-    gap: 4rem;
-    margin-top: 2.4rem;
+  .section {
+    padding: 6rem 0;
+    width: 92%;
   }
 }

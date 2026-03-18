@@ -58,7 +58,7 @@ function serializeContent(blocks: Block[]): string {
           return "";
       }
     })
-    .join("\n");
+    .join("\n\n");
 }
 
 function calcDuration(des: string, raw: string): number {
@@ -82,13 +82,20 @@ export default function EditPostPage() {
 
   useEffect(() => {
     fetch(`/api/posts/${originalSlug}`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("Not found");
+        return r.json();
+      })
       .then((post) => {
         setHeader(post.header);
         setCategory(post.category);
         setDes(post.des);
         setDate(post.date);
         setRawContent(serializeContent(post.content ?? []));
+        setLoading(false);
+      })
+      .catch(() => {
+        setError("Could not load post. It may have been deleted.");
         setLoading(false);
       });
   }, [originalSlug]);
@@ -129,10 +136,14 @@ export default function EditPostPage() {
     router.push("/admin/login");
   };
 
-  if (loading) {
+  if (loading || error) {
     return (
       <main className={styles.main}>
-        <p style={{ color: "var(--secondaryText)", fontSize: "1.6rem" }}>Loading...</p>
+        {loading ? (
+          <p style={{ color: "var(--text-secondary)", fontSize: "1.6rem" }}>Loading...</p>
+        ) : (
+          <p className={styles.error}>{error}</p>
+        )}
       </main>
     );
   }

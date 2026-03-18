@@ -71,6 +71,11 @@ export default function NewPostPage() {
     setError("");
 
     const slug = toSlug(header);
+    if (!slug) {
+      setError("Title must contain at least one letter or number to generate a valid slug.");
+      setSubmitting(false);
+      return;
+    }
     const body = {
       slug,
       header,

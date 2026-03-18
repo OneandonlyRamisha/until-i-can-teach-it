@@ -9,6 +9,7 @@ export default function LastPostsContainer({
   des,
   date,
   duration,
+  index,
 }: {
   url: string;
   category: string;
@@ -16,22 +17,28 @@ export default function LastPostsContainer({
   des: string;
   date: string;
   duration: number;
+  index?: number;
 }) {
+  const num = String((index ?? 0) + 1).padStart(2, "0");
+
   return (
     <Link href={`/blog/${url}`} className={styles.container}>
-      <p className={styles.category}>{category}</p>
-      <div className={styles.infoContainer}>
-        <p className={styles.date}>{date}</p>
-        <span className={styles.dot}></span>
-        <p className={styles.duration}>{duration} Minutes</p>
-      </div>
-      <h4 className={styles.header}>{header}</h4>
-      <p className={styles.des}>{des}</p>
+      <span className={styles.num}>{num}</span>
 
-      <div className={styles.ctaContainer}>
-        <p className={styles.cta}>Read More</p>
-        <FaArrowRightLong className={styles.icon} />
+      <div className={styles.body}>
+        <h4 className={styles.header}>{header}</h4>
+        <p className={styles.des}>{des}</p>
       </div>
+
+      <div className={styles.meta}>
+        <span className={styles.category}>{category}</span>
+        <span className={styles.divider}>·</span>
+        <span className={styles.date}>{date}</span>
+        <span className={styles.divider}>·</span>
+        <span className={styles.duration}>{duration} min</span>
+      </div>
+
+      <FaArrowRightLong className={styles.icon} />
     </Link>
   );
 }

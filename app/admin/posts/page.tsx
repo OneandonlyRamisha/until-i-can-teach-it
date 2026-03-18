@@ -18,13 +18,22 @@ export default function AdminPostsPage() {
   const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [deletingSlug, setDeletingSlug] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/posts")
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("Failed to fetch");
+        return r.json();
+      })
       .then((data) => {
         setPosts(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setFetchError(true);
         setLoading(false);
       });
   }, []);
@@ -32,11 +41,19 @@ export default function AdminPostsPage() {
   const handleDelete = async (slug: string, header: string) => {
     if (!confirm(`Delete "${header}"?`)) return;
     setDeletingSlug(slug);
-    const res = await fetch(`/api/posts/${slug}`, { method: "DELETE" });
-    if (res.ok) {
-      setPosts((p) => p.filter((post) => post.slug !== slug));
+    setDeleteError(null);
+    try {
+      const res = await fetch(`/api/posts/${slug}`, { method: "DELETE" });
+      if (res.ok) {
+        setPosts((p) => p.filter((post) => post.slug !== slug));
+      } else {
+        setDeleteError(`Failed to delete "${header}". Please try again.`);
+      }
+    } catch {
+      setDeleteError(`Failed to delete "${header}". Please try again.`);
+    } finally {
+      setDeletingSlug(null);
     }
-    setDeletingSlug(null);
   };
 
   const handleLogout = async () => {
@@ -58,8 +75,14 @@ export default function AdminPostsPage() {
         </div>
       </div>
 
+      {deleteError && (
+        <p className={styles.error}>{deleteError}</p>
+      )}
+
       {loading ? (
         <p className={styles.empty}>Loading...</p>
+      ) : fetchError ? (
+        <p className={styles.error}>Could not load posts. Please refresh.</p>
       ) : posts.length === 0 ? (
         <p className={styles.empty}>No posts yet.</p>
       ) : (

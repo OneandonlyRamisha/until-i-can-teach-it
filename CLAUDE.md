@@ -18,6 +18,7 @@ No test suite is configured.
 ## Environment Variables
 
 Required in `.env.local`:
+
 - `MONGODB_URI` — MongoDB connection string
 - `JWT_SECRET` — Secret for signing JWT tokens
 
@@ -62,14 +63,17 @@ Required in `.env.local`:
 This is a **Next.js 16 App Router** blog site using TypeScript and CSS Modules.
 
 ### Path alias
+
 `@/*` maps to the project root (configured in `tsconfig.json`).
 
 ### Data layer
+
 - `lib/mongodb.ts` — cached Mongoose connection via `MONGODB_URI`
 - `lib/models/Post.ts` — `IPost` interface and Mongoose schema. The model is always recreated on module load (`delete mongoose.models.Post`) to prevent stale schema after hot-reload.
 - `lib/posts.ts` — exports `getPosts(options?)`, `getPostBySlug(slug)`, `getCategoryCounts()`
 
 Post shape (`IPost`): `category`, `slug`, `header`, `des`, `date`, `duration`, `content` (array of `Block`). Each `Block` is one of:
+
 - `{ type: "paragraph"; parts: ParagraphPart[] }` — `ParagraphPart` is `string | { highlight: string }`
 - `{ type: "header"; text: string }` — rendered as a section heading (`<h6>`)
 - `{ type: "quote"; text: string }` — rendered italic with accent left-border
@@ -78,19 +82,21 @@ Post shape (`IPost`): `category`, `slug`, `header`, `des`, `date`, `duration`, `
 Content is stored as `[Schema.Types.Mixed]` in Mongoose. If you change the Post schema, restart the dev server — stale cached models will strip unknown fields from saved documents.
 
 ### Content editor syntax
+
 Both `app/admin/new-post/page.tsx` and `app/admin/posts/[slug]/edit/page.tsx` use a plain-text textarea with a `parseContent()` function that converts each line to a `Block`:
 
-| Input | Block type |
-|---|---|
-| `# My heading` | `header` |
-| `"A quote"` or `"smart quotes"` | `quote` |
-| `- Bullet item` | `bullets` (consecutive `-` lines merge into one block) |
-| `*word*` inline | `highlight` part inside a `paragraph` |
-| anything else | `paragraph` |
+| Input                           | Block type                                             |
+| ------------------------------- | ------------------------------------------------------ |
+| `# My heading`                  | `header`                                               |
+| `"A quote"` or `"smart quotes"` | `quote`                                                |
+| `- Bullet item`                 | `bullets` (consecutive `-` lines merge into one block) |
+| `*word*` inline                 | `highlight` part inside a `paragraph`                  |
+| anything else                   | `paragraph`                                            |
 
 The edit page also has `serializeContent()` which converts stored blocks back to this syntax for pre-filling the textarea.
 
 ### Auth system
+
 - `lib/auth.ts` — `hashPassword`/`verifyPassword` (bcrypt via `bcryptjs`), `createToken`/`verifyToken` (JWT via `jose`)
 - `lib/models/User.ts` — Mongoose `User` model (`username`, `passwordHash`); admin accounts live in MongoDB
 - Login looks up the user by username in the DB, verifies the bcrypt hash, then sets an `httpOnly` `admin_token` cookie (7-day expiry)
@@ -99,12 +105,14 @@ The edit page also has `serializeContent()` which converts stored blocks back to
 - To add/reset an admin user: run `node scripts/seed-admin.mjs` (edit the username/password in the script first)
 
 ### Admin UI
+
 - `/admin/posts` — lists all posts; edit (pencil) and delete (trash) buttons per row
 - `/admin/new-post` — textarea editor; auto-generates `slug` from `header`
 - `/admin/posts/[slug]/edit` — same editor pre-filled via `serializeContent()`; slug is read-only; submits `PUT`
 - The edit page imports its CSS from `app/admin/new-post/page.module.css`
 
 ### API routes
+
 - `GET /api/posts?category=` — returns filtered posts array
 - `GET /api/posts/:slug` — returns a single post or 404
 - `POST /api/posts` — creates a post (auth required)
@@ -114,18 +122,35 @@ The edit page also has `serializeContent()` which converts stored blocks back to
 - `POST /api/auth/logout` — clears cookie
 
 ### Page structure
+
 - `app/blog/page.tsx` — wraps `blogClient.tsx` in `<Suspense>` (required because `blogClient.tsx` uses `useSearchParams`)
 - `app/blog/blogClient.tsx` — filters posts by category, reads `?category=` from URL on mount
 - `app/blog/[slug]/page.tsx` — server component; renders each `Block` via a switch on `block.type`
 
 ### Component/section split
+
 - `sections/` — full-width page sections used only on the home page
 - `components/` — reusable UI pieces (post cards, footer) used across pages
 
 Each component/section has a co-located `*.module.css` file for scoped styles.
 
 ### Font
+
 Loaded in `app/layout.tsx`, exposed as CSS custom property `--noto-serif-georgian` on `<body>`. Reference it in CSS Modules as `var(--noto-serif-georgian)`.
 
 ### Icons
+
 Use `react-icons/fa6` (Font Awesome 6) to stay consistent with existing imports (e.g. `FaArrowLeftLong`, `FaPencil`, `FaTrash`).
+
+## Bugs to Fix
+
+- ~~`proxy.ts` naming~~ — not a bug; Next.js 16 recognises `proxy.ts` as a valid middleware filename
+- ~~Delete request in `app/admin/posts/page.tsx` fails silently~~ — fixed; error state added, failure message shown to user
+- ~~Initial fetch in `app/admin/posts/page.tsx` has no error handling~~ — fixed; error state added, failure message shown to user
+- ~~Edit page `app/admin/posts/[slug]/edit/page.tsx` fetch has no error handling~~ — fixed; error state shown in place of the loading screen on failure
+- ~~Login page 429 handling~~ — fixed; 429 now reads the `Retry-After` header and shows "Too many attempts. Try again in X seconds."
+- ~~`parseContent`/`serializeContent` lose blank lines~~ — fixed; `serializeContent` now joins blocks with `\n\n`
+- ~~`toSlug()` empty string bug~~ — fixed; `handleSubmit` guards against empty slug before sending to the API
+- ~~`POST /api/posts` has no server-side validation~~ — fixed; all required fields validated before hitting MongoDB
+- ~~In-memory rate limiter resets on restart~~ — fixed; rate limit state persisted in MongoDB (`rate_limits` collection) with a TTL index; survives restarts and works across serverless instances
+- ~~Mutation API routes open to cross-origin requests~~ — fixed; `lib/csrf.ts` helper checks `Origin`/`Referer` against `host` on all five mutation routes (POST/PUT/DELETE posts, login, logout)

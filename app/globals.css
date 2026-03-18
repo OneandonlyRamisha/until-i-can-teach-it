@@ -1,16 +1,26 @@
 :root {
-  --bg: #262624;
-  --card: hsl(60 2.1% 18.4%/1);
-  --text: #faf9f5;
-  --secondaryText: #9c9a92;
-  --accent: #d97757;
+  --bg: #F5F4ED;
+  --bg-secondary: #E5E0D5;
+  --card: #ECEAE2;
+  --golden: #FDD792;
+  --cyan: #32FFDC;
+  --text: #493C31;
+  --text-secondary: #84705B;
+  --text-light: #A89A8A;
+  --border: rgba(73, 60, 49, 0.12);
+  --border-hover: rgba(73, 60, 49, 0.3);
 }
+
 html {
   font-size: 62.5%;
+  scroll-behavior: smooth;
 }
+
 body {
   font-family: var(--noto-serif-georgian);
   background-color: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
 }
 
 * {
@@ -24,35 +34,56 @@ a {
   text-decoration: none;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   color: var(--text);
+  line-height: 1.1;
 }
 
 h1 {
-  font-size: 4.8rem;
+  font-size: 7.2rem;
   font-weight: 700;
+  letter-spacing: -0.03em;
 }
 
 h2 {
-  font-size: 3.6rem;
+  font-size: 4.2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 h3 {
   font-size: 2.4rem;
-  color: var(--secondaryText);
+  color: var(--text-secondary);
+  font-weight: 400;
 }
 
 p {
   font-size: 1.8rem;
-
-  line-height: 1.7;
+  line-height: 1.75;
+  color: var(--text-secondary);
 }
 
 section {
-  margin: 6.4rem 0;
+  margin: 0;
+}
+
+::selection {
+  background-color: var(--golden);
+  color: var(--text);
+}
+
+@media (max-width: 1024px) {
+  h1 { font-size: 5.6rem; }
+  h2 { font-size: 3.6rem; }
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 4.2rem; }
+  h2 { font-size: 3rem; }
+  h3 { font-size: 2rem; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 3.4rem; }
+  h2 { font-size: 2.6rem; }
 }

@@ -3,10 +3,14 @@ import { verifyPassword, createToken } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import User from "@/lib/models/User";
 import { checkRateLimit, resetRateLimit } from "@/lib/rate-limit";
+import { isSameOrigin } from "@/lib/csrf";
 
 export async function POST(request: NextRequest) {
+  if (!isSameOrigin(request))
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
-  const { allowed, retryAfter } = checkRateLimit(ip);
+  const { allowed, retryAfter } = await checkRateLimit(ip);
   if (!allowed) {
     return NextResponse.json(
       { error: "Too many login attempts. Try again later." },
@@ -25,7 +29,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
   }
 
-  resetRateLimit(ip);
+  await resetRateLimit(ip);
   const token = await createToken(username);
   const response = NextResponse.json({ success: true });
 

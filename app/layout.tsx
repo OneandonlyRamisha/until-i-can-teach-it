@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Serif_Georgian } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/footer/footer";
+import Navbar from "@/components/navbar/navbar";
 
 const notoSerifGeorgian = Noto_Serif_Georgian({
   variable: "--noto-serif-georgian",
@@ -17,17 +18,17 @@ export const metadata: Metadata = {
     template: "%s | Until I Can Teach It",
   },
   description:
-    "A personal blog by Luka — a self-taught developer writing about what he learns: coding, philosophy, sales, AI, and business. If I can explain it clearly, I understand it.",
+    "A philosophy journal by Luka — essays on stoicism, ethics, metaphysics, and the questions philosophy has always asked. If I can explain it clearly, I understand it.",
   keywords: [
-    "blog",
-    "coding",
     "philosophy",
-    "sales",
-    "AI",
-    "self-improvement",
-    "full-stack development",
-    "business",
-    "learning",
+    "stoicism",
+    "ethics",
+    "metaphysics",
+    "epistemology",
+    "virtue ethics",
+    "philosophy essays",
+    "philosophy journal",
+    "examined life",
   ],
   authors: [{ name: "Luka" }],
   creator: "Luka",
@@ -38,13 +39,13 @@ export const metadata: Metadata = {
     siteName: "Until I Can Teach It",
     title: "Until I Can Teach It",
     description:
-      "A personal blog by Luka — writing about coding, philosophy, sales, AI, and business.",
+      "A philosophy journal by Luka — essays on stoicism, ethics, metaphysics, and the questions philosophy has always asked.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Until I Can Teach It",
     description:
-      "A personal blog by Luka — writing about coding, philosophy, sales, AI, and business.",
+      "A philosophy journal by Luka — essays on stoicism, ethics, metaphysics, and the questions philosophy has always asked.",
   },
   robots: {
     index: true,
@@ -61,6 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={notoSerifGeorgian.variable} suppressHydrationWarning>
+        <Navbar />
         {children}
         <Footer />
       </body>

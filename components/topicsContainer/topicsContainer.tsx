@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styles from "./topicsContainer.module.css";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 export default function TopicsContainer({
   topic,
@@ -12,8 +13,13 @@ export default function TopicsContainer({
 }) {
   return (
     <Link href={url} className={styles.container}>
-      <p className={styles.header}>{topic}</p>
-      <p className={styles.posts}>{posts} Posts</p>
+      <span className={styles.topic}>{topic}</span>
+      <div className={styles.right}>
+        <span className={styles.count}>
+          {posts} {posts === 1 ? "Essay" : "Essays"}
+        </span>
+        <FaArrowRightLong className={styles.icon} />
+      </div>
     </Link>
   );
 }

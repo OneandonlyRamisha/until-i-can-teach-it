@@ -4,6 +4,7 @@ import { verifyToken } from "@/lib/auth";
 import { cookies } from "next/headers";
 import dbConnect from "@/lib/mongodb";
 import Post from "@/lib/models/Post";
+import { isSameOrigin } from "@/lib/csrf";
 
 async function authenticate() {
   const cookieStore = await cookies();
@@ -31,6 +32,8 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  if (!isSameOrigin(request))
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   if (!(await authenticate())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -51,9 +54,11 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  if (!isSameOrigin(request))
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   if (!(await authenticate())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

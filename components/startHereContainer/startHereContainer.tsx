@@ -7,20 +7,24 @@ export default function StartHereContainer({
   header,
   des,
   url,
+  index,
 }: {
   category: string;
   header: string;
   des: string;
   url: string;
+  index?: number;
 }) {
+  const num = String((index ?? 0) + 1).padStart(2, "0");
+
   return (
     <Link href={`/blog/${url}`} className={styles.container}>
-      <p className={styles.category}>{category}</p>
-      <p className={styles.header}>{header}</p>
+      <span className={styles.featuredNum}>{num}</span>
+      <span className={styles.category}>{category}</span>
+      <h3 className={styles.header}>{header}</h3>
       <p className={styles.des}>{des}</p>
-
       <div className={styles.ctaContainer}>
-        <p className={styles.cta}>Read More</p>
+        <span className={styles.cta}>Read Essay</span>
         <FaArrowRightLong className={styles.icon} />
       </div>
     </Link>

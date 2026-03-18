@@ -8,7 +8,7 @@
 
 .card {
   background-color: var(--card);
-  border: 1px solid #4c4e4e;
+  border: 1px solid rgba(73, 60, 49, 0.25);
   border-radius: 1.2rem;
   padding: 4rem;
   width: 100%;
@@ -25,7 +25,7 @@
   display: block;
   width: 6rem;
   height: 0.3rem;
-  background-color: var(--accent);
+  background-color: var(--golden);
   border-radius: 10000rem;
   margin: 0 auto 3.2rem;
 }
@@ -44,12 +44,12 @@
 
 .label {
   font-size: 1.4rem;
-  color: var(--secondaryText);
+  color: var(--text-secondary);
 }
 
 .input {
   background-color: var(--bg);
-  border: 1px solid #4c4e4e;
+  border: 1px solid rgba(73, 60, 49, 0.25);
   border-radius: 0.8rem;
   padding: 1.2rem 1.6rem;
   color: var(--text);
@@ -61,7 +61,7 @@
 }
 
 .input:focus {
-  border-color: var(--accent);
+  border-color: var(--text);
 }
 
 .error {
@@ -70,7 +70,7 @@
 }
 
 .submitBtn {
-  background-color: var(--accent);
+  background-color: var(--text);
   color: #fff;
   border: none;
   border-radius: 0.8rem;

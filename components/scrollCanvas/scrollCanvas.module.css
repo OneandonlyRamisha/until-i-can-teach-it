@@ -1,0 +1,455 @@
+/* ── Scroll container — 750vh for three-act cinematic intro ── */
+.container {
+  height: 750vh;
+  position: relative;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* ── Canvas: full viewport, BG filled in JS ── */
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* ── Mobile gradient overlay: parchment at top fading into statue ── */
+.mobileOverlay {
+  display: none;
+}
+
+/* ── Act 1: decorative border frame around right-half statue area ── */
+.frameDeco {
+  position: absolute;
+  top: 6%;
+  right: 2%;
+  width: 45%;
+  height: 88%;
+  border: 1px solid rgba(73, 60, 49, 0.2);
+  pointer-events: none;
+  z-index: 2;
+  will-change: opacity;
+}
+
+/* ── Act 1: vertical divider at 50% ── */
+.divider {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--border-hover) 20%,
+    var(--border-hover) 80%,
+    transparent 100%
+  );
+  z-index: 3;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+/* ── Act 1→2: title block, positioned via JS ── */
+.titleBlock {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.4rem, 1.8vw, 2.4rem);
+  pointer-events: none;
+  will-change: left, opacity, transform;
+}
+
+.eyebrow {
+  font-size: clamp(1.2rem, 1.3vw, 1.96rem);
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: var(--text-light);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.titleHeading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  font-size: 0;
+}
+
+.titleTop {
+  font-size: clamp(5.6rem, 8vw, 12.8rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  display: block;
+  white-space: nowrap;
+}
+
+.titleBottom {
+  font-size: clamp(6.8rem, 9.8vw, 15.6rem);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  display: block;
+  white-space: nowrap;
+}
+
+.tagline {
+  font-size: clamp(1.5rem, 1.9vw, 2.89rem);
+  line-height: 1.55;
+  color: var(--text-secondary);
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.scrollHint {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  margin-top: 0.4rem;
+  will-change: opacity;
+}
+
+.scrollBar {
+  display: block;
+  height: 0.1rem;
+  width: 3.2rem;
+  background: var(--text-light);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    width: 3.2rem;
+    opacity: 0.4;
+  }
+  50% {
+    width: 5rem;
+    opacity: 1;
+  }
+}
+
+.scrollLabel {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* ── Act 2: left side text ── */
+.leftText {
+  position: absolute;
+  left: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  pointer-events: none;
+  will-change: opacity, transform;
+  max-width: 28rem;
+}
+
+.sideEyebrow {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #fff;
+  font-weight: 500;
+  display: block;
+  -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.8);
+  paint-order: stroke fill;
+}
+
+.sideBody {
+  font-size: clamp(1.5rem, 1.6vw, 2rem);
+  line-height: 1.6;
+  color: #fff;
+  font-weight: 500;
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.75);
+  paint-order: stroke fill;
+}
+
+/* ── Act 2: right side text ── */
+.rightText {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  pointer-events: none;
+  will-change: opacity, transform;
+  max-width: 28rem;
+  text-align: right;
+}
+
+.sideTagline {
+  font-size: clamp(1.5rem, 1.6vw, 2rem);
+  line-height: 1.6;
+  color: #fff;
+  font-style: italic;
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.75);
+  paint-order: stroke fill;
+  font-weight: 400;
+  text-shadow:
+    0 0 40px rgba(245, 244, 237, 0.9),
+    0 2px 16px rgba(245, 244, 237, 0.7);
+}
+
+/* ── Act 3: radial eye vignette — "entering the eye" ── */
+.eyeOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 40% 40% at 50% 50%,
+    transparent 0%,
+    transparent 35%,
+    rgba(73, 60, 49, 0.4) 65%,
+    rgba(73, 60, 49, 0.85) 100%
+  );
+  will-change: opacity;
+}
+
+/* ── Act 3: quote overlay ── */
+.quoteOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.4rem;
+  pointer-events: none;
+  will-change: opacity, transform;
+  padding: 0 4rem;
+  text-align: center;
+}
+
+.overlayQuote {
+  font-size: clamp(3.6rem, 6vw, 8rem);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.15);
+  paint-order: stroke fill;
+}
+
+.overlayAttribution {
+  font-size: clamp(1.4rem, 1.8vw, 2rem);
+  font-style: normal;
+  color: rgba(0, 0, 0, 0.7);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* ── Landscape tablet / small laptop ── */
+@media (max-width: 1024px) {
+  /* clamp() handles titleTop/titleBottom/eyebrow/tagline scaling */
+  .sideBody {
+    font-size: 1.7rem;
+  }
+  .sideTagline {
+    font-size: 1.7rem;
+  }
+}
+
+/* ── Portrait tablets: single-screen static hero ── */
+@media (max-width: 1024px) and (orientation: portrait) {
+  .container {
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .frameDeco { display: none; }
+  .divider   { display: none; }
+  .leftText  { display: none; }
+  .rightText { display: none; }
+
+  .mobileOverlay {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      var(--bg) 0%,
+      var(--bg) 28%,
+      rgba(245, 244, 237, 0.88) 36%,
+      rgba(245, 244, 237, 0.4) 48%,
+      transparent 60%
+    );
+  }
+
+  .titleBlock {
+    top: 28% !important;
+    left: 50% !important;
+    transform: translateY(-50%) translateX(-50%) !important;
+    align-items: center;
+    text-align: center;
+    width: 80%;
+    gap: 2rem;
+  }
+
+  .eyebrow {
+    font-size: 1.4rem;
+    letter-spacing: 0.2em;
+    white-space: normal;
+  }
+
+  .titleTop {
+    font-size: 7.2rem;
+    white-space: normal;
+  }
+
+  .titleBottom {
+    font-size: 8.8rem;
+    white-space: normal;
+  }
+
+  .tagline {
+    font-size: 2rem;
+    white-space: normal;
+    color: var(--text-secondary);
+  }
+
+  .scrollHint {
+    justify-content: center;
+    margin-top: 0.8rem;
+  }
+}
+
+/* ── Mobile: single-screen static hero ── */
+@media (max-width: 768px) {
+  /* Collapse to one viewport height — no scroll within hero */
+  .container {
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  /* Gradient overlay: solid parchment at top, fades into statue below */
+  .mobileOverlay {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      var(--bg) 0%,
+      var(--bg) 30%,
+      rgba(245, 244, 237, 0.88) 38%,
+      rgba(245, 244, 237, 0.4) 50%,
+      transparent 62%
+    );
+  }
+
+  /* Hide desktop-only decorations */
+  .frameDeco { display: none; }
+  .divider   { display: none; }
+  .leftText  { display: none; }
+  .rightText { display: none; }
+
+  /* Title: float in the upper third of the screen */
+  .titleBlock {
+    top: 26% !important;
+    left: 50% !important;
+    transform: translateY(-50%) translateX(-50%) !important;
+    align-items: center;
+    text-align: center;
+    width: 88%;
+    gap: 1.6rem;
+  }
+
+  .eyebrow {
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    white-space: normal;
+  }
+
+  .titleTop {
+    font-size: 5.6rem;
+    white-space: normal;
+  }
+
+  .titleBottom {
+    font-size: 6.8rem;
+    white-space: normal;
+  }
+
+  .tagline {
+    font-size: 1.7rem;
+    white-space: normal;
+    color: var(--text-secondary);
+  }
+
+  .scrollHint {
+    justify-content: center;
+    margin-top: 0.8rem;
+  }
+}
+
+/* ── Small mobile ── */
+@media (max-width: 480px) {
+  .titleBlock {
+    top: 24% !important;
+    gap: 1.4rem;
+  }
+
+  .titleTop {
+    font-size: 4.6rem;
+  }
+
+  .titleBottom {
+    font-size: 5.6rem;
+  }
+
+  .tagline {
+    font-size: 1.5rem;
+  }
+
+  .eyebrow {
+    font-size: 1.1rem;
+  }
+}
+
+/* ── Very small phones (SE, etc.) ── */
+@media (max-width: 375px) {
+  .titleBlock {
+    top: 22% !important;
+    width: 92%;
+    gap: 1.2rem;
+  }
+
+  .titleTop {
+    font-size: 4rem;
+  }
+
+  .titleBottom {
+    font-size: 4.8rem;
+  }
+}

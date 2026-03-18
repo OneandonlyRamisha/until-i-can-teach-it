@@ -24,6 +24,15 @@ export default function LoginPage() {
 
     if (res.ok) {
       router.push("/admin/new-post");
+    } else if (res.status === 429) {
+      const retryAfter = res.headers.get("Retry-After");
+      const seconds = retryAfter ? parseInt(retryAfter, 10) : null;
+      setError(
+        seconds
+          ? `Too many attempts. Try again in ${seconds} second${seconds !== 1 ? "s" : ""}.`
+          : "Too many attempts. Please wait before trying again."
+      );
+      setLoading(false);
     } else {
       setError("Invalid username or password");
       setLoading(false);

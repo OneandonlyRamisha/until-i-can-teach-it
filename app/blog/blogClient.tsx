@@ -16,13 +16,21 @@ export default function BlogClient() {
   const [categories, setCategories] = useState<string[]>([]);
   const [filter, setFilter] = useState<string>(categoryFromUrl || "All");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     fetch("/api/posts")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch");
+        return res.json();
+      })
       .then((data: IPost[]) => {
         setPosts(data);
         setCategories([...new Set(data.map((p) => p.category))]);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError(true);
         setLoading(false);
       });
   }, []);
@@ -31,18 +39,26 @@ export default function BlogClient() {
     filter === "All" ? posts : posts.filter((p) => p.category === filter);
 
   return (
-    <section className={styles.blogSection}>
-      <div className={styles.headerContainer}>
-        <Link href={"/"} className={styles.goBackContainer}>
-          <FaArrowLeftLong className={styles.icon} />
-          <p className={styles.goBack}>Home</p>
+    <section className={styles.section}>
+      <div className={styles.headerArea}>
+        <Link href="/" className={styles.goBack}>
+          <FaArrowLeftLong className={styles.goBackIcon} />
+          <span>Home</span>
         </Link>
-        <h1 className={styles.header}>Read All The Available Articles</h1>
-        <span className={styles.line}></span>
+
+        <div className={styles.headerText}>
+          <span className={styles.label}>All Essays</span>
+          <h1 className={styles.title}>
+            The <em>Journal</em>
+          </h1>
+          <p className={styles.subtitle}>
+            {posts.length > 0 ? `${posts.length} essay${posts.length !== 1 ? "s" : ""}` : "Essays"} on
+            philosophy — stoicism, ethics, metaphysics, and the questions
+            worth sitting with.
+          </p>
+        </div>
       </div>
-      <h3 className={styles.subheader}>
-        {`Find all the available articles written by owner of the website about number of topics from sales and philosophy all the way to coding and self improvement. Browse through ${posts.length}+ articles`}
-      </h3>
+
       <div className={styles.filterContainer}>
         {["All", ...categories].map((category) => (
           <button
@@ -54,19 +70,23 @@ export default function BlogClient() {
           </button>
         ))}
       </div>
-      <div className={styles.blogContainer}>
+
+      <div className={styles.list}>
         {loading ? (
-          <div className={styles.loading}>Loading...</div>
+          <p className={styles.loading}>Loading essays…</p>
+        ) : error ? (
+          <p className={styles.loading}>Could not load essays. Please refresh.</p>
         ) : (
-          visible.map((i) => (
+          visible.map((post, index) => (
             <LastPostsContainer
-              header={i.header}
-              url={i.slug}
-              des={i.des}
-              key={i.slug}
-              category={i.category}
-              date={i.date}
-              duration={i.duration}
+              header={post.header}
+              url={post.slug}
+              des={post.des}
+              key={post.slug}
+              category={post.category}
+              date={post.date}
+              duration={post.duration}
+              index={index}
             />
           ))
         )}

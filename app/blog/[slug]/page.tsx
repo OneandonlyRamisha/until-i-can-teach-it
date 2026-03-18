@@ -77,7 +77,7 @@ export default async function BlogPost({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Link href={"/blog"} className={styles.goBackContainer}>
+      <Link href="/blog" className={styles.goBackContainer}>
         <FaArrowLeftLong className={styles.icon} />
         <p className={styles.goBack}>All Articles</p>
       </Link>
