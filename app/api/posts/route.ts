@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getPosts } from "@/lib/posts";
 import { verifyToken } from "@/lib/auth";
 import { cookies } from "next/headers";
@@ -56,6 +57,8 @@ export async function POST(request: NextRequest) {
   try {
     await dbConnect();
     const post = await Post.create({ category, slug, header, des, date, duration, content });
+    revalidatePath("/");
+    revalidatePath("/blog");
     return NextResponse.json(post, { status: 201 });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Failed to create post";

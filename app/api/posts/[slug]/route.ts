@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getPostBySlug } from "@/lib/posts";
 import { verifyToken } from "@/lib/auth";
 import { cookies } from "next/headers";
@@ -46,6 +47,9 @@ export async function PUT(
       runValidators: true,
     });
     if (!post) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    revalidatePath("/");
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${slug}`);
     return NextResponse.json(post);
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Failed to update post";
@@ -67,6 +71,9 @@ export async function DELETE(
     await dbConnect();
     const post = await Post.findOneAndDelete({ slug });
     if (!post) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    revalidatePath("/");
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${slug}`);
     return NextResponse.json({ success: true });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Failed to delete post";

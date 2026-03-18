@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
@@ -64,6 +64,16 @@ export default function NewPostPage() {
   const [des, setDes] = useState("");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [rawContent, setRawContent] = useState("");
+
+  const [categories, setCategories] = useState<string[]>([]);
+  const [isNewCategory, setIsNewCategory] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/posts/categories")
+      .then((r) => r.json())
+      .then(setCategories)
+      .catch(() => {});
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -153,14 +163,37 @@ export default function NewPostPage() {
             <label className={styles.label} htmlFor="category">
               Category
             </label>
-            <input
+            <select
               id="category"
-              className={styles.input}
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              placeholder="e.g. Philosophy"
-              required
-            />
+              className={styles.select}
+              value={isNewCategory ? "__new__" : category}
+              onChange={(e) => {
+                if (e.target.value === "__new__") {
+                  setIsNewCategory(true);
+                  setCategory("");
+                } else {
+                  setIsNewCategory(false);
+                  setCategory(e.target.value);
+                }
+              }}
+              required={!isNewCategory}
+            >
+              <option value="" disabled>Select a category</option>
+              {categories.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+              <option value="__new__">+ New category…</option>
+            </select>
+            {isNewCategory && (
+              <input
+                className={styles.input}
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                placeholder="New category name"
+                required
+                autoFocus
+              />
+            )}
           </div>
 
           <div className={styles.fieldGroup}>

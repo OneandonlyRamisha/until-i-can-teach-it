@@ -19,20 +19,31 @@ export async function generateMetadata({
   return {
     title: post.header,
     description: post.des,
+    keywords: [
+      post.category,
+      "philosophy",
+      "philosophy essay",
+      "philosophy journal",
+      "Luka",
+    ],
+    authors: [{ name: "Luka", url: `${siteUrl}/about` }],
     alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       type: "article",
       title: post.header,
       description: post.des,
       url: `/blog/${slug}`,
+      siteName: "Until I Can Teach It",
       publishedTime: post.date,
-      authors: ["Luka"],
-      tags: [post.category],
+      authors: [`${siteUrl}/about`],
+      tags: [post.category, "philosophy", "philosophy essay"],
+      section: post.category,
     },
     twitter: {
       card: "summary_large_image",
       title: post.header,
       description: post.des,
+      creator: "@untilicanteachit",
     },
   };
 }
@@ -65,10 +76,31 @@ export default async function BlogPost({
     headline: post.header,
     description: post.des,
     datePublished: post.date,
-    author: { "@type": "Person", name: "Luka", url: `${siteUrl}/about` },
-    publisher: { "@type": "Person", name: "Luka" },
+    dateModified: post.date,
+    inLanguage: "en-US",
+    articleSection: post.category,
+    keywords: [post.category, "philosophy", "philosophy essay"].join(", "),
+    wordCount: post.duration * 200,
+    author: {
+      "@type": "Person",
+      name: "Luka",
+      url: `${siteUrl}/about`,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Until I Can Teach It",
+      url: siteUrl,
+    },
     url: `${siteUrl}/blog/${post.slug}`,
-    mainEntityOfPage: { "@type": "WebPage", "@id": `${siteUrl}/blog/${post.slug}` },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/blog/${post.slug}`,
+    },
+    isPartOf: {
+      "@type": "Blog",
+      name: "Until I Can Teach It",
+      url: `${siteUrl}/blog`,
+    },
   };
 
   return (

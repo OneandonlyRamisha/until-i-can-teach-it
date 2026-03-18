@@ -8,22 +8,60 @@ import {
   FaGithub,
 } from "react-icons/fa6";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://untilicanteachit.com";
+
 export const metadata: Metadata = {
-  title: "About",
+  title: "About Luka",
   description:
-    "I'm Luka — I write about philosophy. Stoicism, ethics, metaphysics, and the questions that don't have easy answers. I write to understand.",
+    "I'm Luka — I write about philosophy. Stoicism, ethics, metaphysics, and the questions that don't have easy answers. I write to understand, one essay at a time.",
   alternates: { canonical: "/about" },
   openGraph: {
-    title: "About | Until I Can Teach It",
+    type: "profile",
+    title: "About Luka | Until I Can Teach It",
     description:
       "I'm Luka — I write about philosophy. Stoicism, ethics, metaphysics, and the questions that don't have easy answers. I write to understand.",
     url: "/about",
   },
+  twitter: {
+    card: "summary",
+    title: "About Luka | Until I Can Teach It",
+    description:
+      "I'm Luka — I write about philosophy. Stoicism, ethics, metaphysics, and the questions that don't have easy answers.",
+  },
+};
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Luka",
+  url: `${siteUrl}/about`,
+  sameAs: [
+    "https://www.linkedin.com/in/luka-ramishvili-72550035b/",
+    "https://www.instagram.com/ramishaluka/",
+    "https://github.com/OneandonlyRamisha",
+  ],
+  jobTitle: "Philosophy Writer",
+  description:
+    "I write about stoicism, ethics, metaphysics, epistemology, and the questions philosophy has spent centuries trying to answer.",
+  knowsAbout: [
+    "Philosophy",
+    "Stoicism",
+    "Ethics",
+    "Metaphysics",
+    "Epistemology",
+    "Virtue Ethics",
+    "Existentialism",
+    "Ancient Philosophy",
+  ],
 };
 
 export default function About() {
   return (
     <section className={styles.section}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <Link href="/" className={styles.goBack}>
         <FaArrowLeftLong className={styles.goBackIcon} />
         <span>Home</span>
