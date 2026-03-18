@@ -280,6 +280,7 @@ export default function ScrollCanvas() {
     loadSet(1, img1Ref, 0, () => {
       draw(0);
       updateDOM(0);
+      window.dispatchEvent(new CustomEvent("canvas-ready"));
     });
     loadSet(2, img2Ref, 400);
     loadSet(3, img3Ref, 800);

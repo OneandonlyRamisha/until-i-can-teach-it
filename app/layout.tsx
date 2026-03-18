@@ -3,6 +3,7 @@ import { Noto_Serif_Georgian } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/footer/footer";
 import Navbar from "@/components/navbar/navbar";
+import PageLoader from "@/components/pageLoader/pageLoader";
 
 const notoSerifGeorgian = Noto_Serif_Georgian({
   variable: "--noto-serif-georgian",
@@ -62,6 +63,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={notoSerifGeorgian.variable} suppressHydrationWarning>
+        <PageLoader />
         <Navbar />
         {children}
         <Footer />

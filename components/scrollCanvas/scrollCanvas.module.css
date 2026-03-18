@@ -284,10 +284,18 @@
     height: 100dvh;
   }
 
-  .frameDeco { display: none; }
-  .divider   { display: none; }
-  .leftText  { display: none; }
-  .rightText { display: none; }
+  .frameDeco {
+    display: none;
+  }
+  .divider {
+    display: none;
+  }
+  .leftText {
+    display: none;
+  }
+  .rightText {
+    display: none;
+  }
 
   .mobileOverlay {
     display: block;
@@ -301,7 +309,9 @@
       var(--bg) 28%,
       rgba(245, 244, 237, 0.88) 36%,
       rgba(245, 244, 237, 0.4) 48%,
-      transparent 60%
+      transparent 60%,
+      rgba(245, 244, 237, 0.45) 80%,
+      var(--bg) 100%
     );
   }
 
@@ -351,7 +361,7 @@
     height: 100dvh;
   }
 
-  /* Gradient overlay: solid parchment at top, fades into statue below */
+  /* Gradient overlay: solid parchment at top, fades into statue, fades back at bottom */
   .mobileOverlay {
     display: block;
     position: absolute;
@@ -364,15 +374,25 @@
       var(--bg) 30%,
       rgba(245, 244, 237, 0.88) 38%,
       rgba(245, 244, 237, 0.4) 50%,
-      transparent 62%
+      transparent 62%,
+      rgba(245, 244, 237, 0.45) 82%,
+      var(--bg) 100%
     );
   }
 
   /* Hide desktop-only decorations */
-  .frameDeco { display: none; }
-  .divider   { display: none; }
-  .leftText  { display: none; }
-  .rightText { display: none; }
+  .frameDeco {
+    display: none;
+  }
+  .divider {
+    display: none;
+  }
+  .leftText {
+    display: none;
+  }
+  .rightText {
+    display: none;
+  }
 
   /* Title: float in the upper third of the screen */
   .titleBlock {

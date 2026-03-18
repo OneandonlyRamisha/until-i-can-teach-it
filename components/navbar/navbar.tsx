@@ -19,11 +19,13 @@ export default function Navbar() {
   useEffect(() => {
     const update = () => {
       const isMobile = window.innerWidth <= 768;
-      const heroVH = isMobile ? 500 : 750;
-      const threshold = ((heroVH - 100) / 100) * window.innerHeight;
+      if (isMobile) {
+        setTransparent(false);
+        if (window.innerWidth > 480) setMenuOpen(false);
+        return;
+      }
+      const threshold = ((750 - 100) / 100) * window.innerHeight;
       setTransparent(window.scrollY < threshold);
-      // Close burger if viewport grows past mobile breakpoint
-      if (window.innerWidth > 480) setMenuOpen(false);
     };
     update();
     window.addEventListener("scroll", update, { passive: true });
